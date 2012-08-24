@@ -12,12 +12,13 @@ static NSString* kSinglyAccountIDKey = @"com.singly.accountID";
 static NSString* kSinglyAccessTokenKey = @"com.singly.accessToken";
 
 @implementation SinglySession
-
 @synthesize delegate =_delegate;
 
 -(void)setAccountID:(NSString *)accountID
 {
-    [[NSUserDefaults standardUserDefaults] setObject:accountID forKey:kSinglyAccountIDKey];
+    NSUserDefaults *_userDefaults = [NSUserDefaults standardUserDefaults];    
+    [_userDefaults setObject:accountID forKey:kSinglyAccountIDKey];
+    [_userDefaults synchronize];
 }
 
 -(NSString*)accountID;
@@ -28,7 +29,10 @@ static NSString* kSinglyAccessTokenKey = @"com.singly.accessToken";
 -(void)setAccessToken:(NSString *)accessToken;
 {
     DLog(@"Saved accesstoken");
-    [[NSUserDefaults standardUserDefaults] setObject:accessToken forKey:kSinglyAccessTokenKey];
+    NSUserDefaults *_userDefaults = [NSUserDefaults standardUserDefaults];    
+    [_userDefaults setObject:accessToken forKey:kSinglyAccessTokenKey];
+    [_userDefaults synchronize];
+
 }
 
 -(NSString*)accessToken;
