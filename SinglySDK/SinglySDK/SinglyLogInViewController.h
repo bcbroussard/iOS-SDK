@@ -12,9 +12,9 @@
 @interface SinglyLogInViewController : UIViewController<UIWebViewDelegate, NSURLConnectionDataDelegate>
 - (id)initWithSession:(SinglySession*)session forService:(NSString*)serviceId;
 
-@property (strong, atomic) NSString* clientID;
-@property (strong, atomic) NSString* clientSecret;
-@property (strong, atomic) NSString* scope;
-@property (strong, atomic) NSString* flags;
+@property (strong, nonatomic) NSString* clientID;
+@property (strong, nonatomic) NSString* clientSecret;
+@property (strong, nonatomic) NSString* scope;
+@property (strong, nonatomic) NSString* flags;
 
 @end

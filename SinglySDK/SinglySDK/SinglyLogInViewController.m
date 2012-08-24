@@ -21,6 +21,8 @@
 
 @implementation SinglyLogInViewController
 
+@synthesize clientID = _clientID, clientSecret =_clientSecret, scope =_scope, flags = _flags;
+
 - (id)initWithSession:(SinglySession*)session forService:(NSString*)serviceId;
 {
     self = [super init];

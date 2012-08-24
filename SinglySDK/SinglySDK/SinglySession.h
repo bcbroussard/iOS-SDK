@@ -16,15 +16,9 @@
 
 @interface SinglySession : NSObject {
 }
-@property (strong, atomic, getter = getAccessToken, setter = setAccessToken:) NSString* accessToken;
-@property (strong, atomic, getter = getAccountID, setter = setAccountID:) NSString* accountID;
-@property (strong, atomic) id<SinglySessionDelegate> delegate;
-
--(void)setAccountID:(NSString *)accountID;
--(NSString*)getAccountID;
-
--(void)setAccessToken:(NSString *)accessToken;
--(NSString*)getAccessToken;
+@property (strong, nonatomic) NSString* accessToken;
+@property (strong, nonatomic) NSString* accountID;
+@property (strong, nonatomic) id<SinglySessionDelegate> delegate;
 
 -(void)checkReadyWithBlock:(void (^)(BOOL))block;
 -(void)requestAPI:(NSString*)api withParameters:(NSDictionary*)params;
