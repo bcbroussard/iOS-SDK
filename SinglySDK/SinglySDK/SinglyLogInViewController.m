@@ -40,7 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSLog(@"View did load for Singly Login");
+    DLog(@"View did load for Singly Login");
 	// Do any additional setup after loading the view.
 }
 
@@ -67,7 +67,7 @@
     if (self.flags) {
         urlStr = [urlStr stringByAppendingFormat:@"&flag=%@", self.flags];
     }
-    NSLog(@"Going to auth url %@", urlStr);
+    DLog(@"Going to auth url %@", urlStr);
     [webview_ loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
 }
 -(void)processAccessTokenWithData:(NSData*)data;
@@ -78,8 +78,8 @@
 #pragma mark - UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 {
-    NSLog(@"Going to %@", [request.URL absoluteString]);
-    NSLog(@"scheme(%@) host(%@)", request.URL.scheme, request.URL.host);
+    DLog(@"Going to %@", [request.URL absoluteString]);
+    DLog(@"scheme(%@) host(%@)", request.URL.scheme, request.URL.host);
     if ([request.URL.scheme isEqualToString:@"singly"] && [request.URL.host isEqualToString:@"authComplete"]) {
         // Find the code and request an access token
         NSArray *parameterPairs = [request.URL.query componentsSeparatedByString:@"&"];
@@ -97,7 +97,7 @@
         }
         
         if ([parameters objectForKey:@"code"]) {
-            NSLog(@"Getting the tokens");
+            DLog(@"Getting the tokens");
             NSURL* accessTokenURL = [NSURL URLWithString:@"https://api.singly.com/oauth/access_token"];
             NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:accessTokenURL];
             req.HTTPMethod = @"POST";
@@ -105,7 +105,7 @@
             responseData = [NSMutableData data];
             [NSURLConnection connectionWithRequest:req delegate:self];
         }
-        NSLog(@"Request the token");
+        DLog(@"Request the token");
         return FALSE;
     }
     return TRUE;
@@ -142,12 +142,12 @@
     session_.accessToken = [jsonResult objectForKey:@"access_token"];
     session_.accountID = [jsonResult objectForKey:@"account"];
     [self removeFromParentViewController];
-    NSLog(@"All set to do requests as account %@ with access token %@", session_.accountID, session_.accessToken);
+    DLog(@"All set to do requests as account %@ with access token %@", session_.accountID, session_.accessToken);
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"OH NOES: %@", error);
+    DLog(@"OH NOES: %@", error);
     // TODO:  Fill this in.
 }
 @end

@@ -27,7 +27,7 @@ static NSString* kSinglyAccessTokenKey = @"comsingly.accessToken";
 
 -(void)setAccessToken:(NSString *)accessToken;
 {
-    NSLog(@"Saved accesstoken");
+    DLog(@"Saved accesstoken");
     [[NSUserDefaults standardUserDefaults] setObject:accessToken forKey:kSinglyAccessTokenKey];
 }
 

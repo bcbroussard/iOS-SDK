@@ -19,12 +19,12 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"View will appear for app");
+    DLog(@"View will appear for app");
 }
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    NSLog(@"View did appear");
+    DLog(@"View did appear");
     [session_ checkReadyWithBlock:^(BOOL ready){
         if(!ready) {
             loginVC_ = [[SinglyLogInViewController alloc] initWithSession:session_ forService:kSinglyServiceFacebook];
@@ -32,7 +32,7 @@
             loginVC_.clientSecret = @"ac2f8fafa8463e2f1322883bc17f51ec";
             [self presentModalViewController:loginVC_ animated:YES];
         } else {
-            NSLog(@"We're already done!");
+            DLog(@"We're already done!");
             [session_ requestAPI:@"profiles" withParameters:nil];
         }
     }];
@@ -44,7 +44,7 @@
     
     session_ = [[SinglySession alloc] init];
     session_.delegate = self;
-    NSLog(@"Session account is %@ and access token is %@", session_.accountID, session_.accessToken);
+    DLog(@"Session account is %@ and access token is %@", session_.accountID, session_.accessToken);
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -66,10 +66,10 @@
 #pragma mark - SinglySessionDelegate
 -(void)singlyResultForAPI:(NSString *)api withJSON:(id)json;
 {
-    NSLog(@"Got a result for %@:\n%@", api, json);
+    DLog(@"Got a result for %@:\n%@", api, json);
 }
 -(void)singlyErrorForAPI:(NSString *)api withError:(NSError *)error;
 {
-    NSLog(@"Error for api(%@): %@", api, error);
+    DLog(@"Error for api(%@): %@", api, error);
 }
 @end
