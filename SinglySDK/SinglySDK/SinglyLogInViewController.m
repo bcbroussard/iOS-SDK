@@ -13,7 +13,10 @@
     UIWebView* _webview;
     NSString* _targetService;
     NSMutableData* _responseData;
+    UIView* pendingLoginView;
     UIActivityIndicatorView* activityView;
+
+    id __unsafe_unretained _delegate;
 }
 
 -(void)processAccessTokenWithData:(NSData*)data;
@@ -22,19 +25,11 @@
 
 @implementation SinglyLogInViewController
 
-@synthesize scope =_scope, flags = _flags;
-
-- (id)init
-{
-    self = [super init];
-    if (self) {        
-    }
-    return self;
-}
+@synthesize scope =_scope, flags = _flags, delegate =_delegate;
 
 - (id)initWithService:(NSString*)serviceId;
 {
-    self = [self init];
+    self = [super init];
     if (self) {
         _targetService = serviceId;
     }
@@ -44,13 +39,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    DLog(@"View did load for Singly Login");
 	// Do any additional setup after loading the view.
     
     _webview = [[UIWebView alloc] initWithFrame:self.view.frame];
     _webview.scalesPageToFit = YES;
     _webview.delegate = self;
     [self.view addSubview:_webview];
+    
+    pendingLoginView = [[UIView alloc] initWithFrame:self.view.bounds];
+    pendingLoginView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+    pendingLoginView.hidden =YES;
+
+    activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    activityView.frame = CGRectMake(140, 180, activityView.bounds.size.width, activityView.bounds.size.height);
+    
+    [pendingLoginView addSubview:activityView];
+    [activityView startAnimating];
+    
+    [_webview addSubview:pendingLoginView];
+
 
     SinglyClient *client = [SinglyClient sharedClient];
     
@@ -88,9 +95,10 @@
 #pragma mark - UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 {
-    DLog(@"Going to %@", [request.URL absoluteString]);
-    DLog(@"scheme(%@) host(%@)", request.URL.scheme, request.URL.host);
     if ([request.URL.scheme isEqualToString:@"singly"] && [request.URL.host isEqualToString:@"authComplete"]) {
+
+        pendingLoginView.hidden =NO;
+        
         // Find the code and request an access token
         NSArray *parameterPairs = [request.URL.query componentsSeparatedByString:@"&"];
         
@@ -107,7 +115,6 @@
         }
         
         if ([parameters objectForKey:@"code"]) {
-            DLog(@"Getting the tokens");
             SinglyClient *client = [SinglyClient sharedClient];
             
             NSURL* accessTokenURL = [NSURL URLWithString:@"https://api.singly.com/oauth/access_token"];
@@ -117,10 +124,9 @@
             _responseData = [NSMutableData data];
             [NSURLConnection connectionWithRequest:req delegate:self];
         }
-        DLog(@"Request the token");
-        return FALSE;
+        return NO;
     }
-    return TRUE;
+    return YES;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView;
@@ -152,16 +158,37 @@
     NSError* error;
     NSDictionary* jsonResult = [NSJSONSerialization JSONObjectWithData:_responseData options:kNilOptions error:&error];
     SinglyClient *client = [SinglyClient sharedClient];
-    client.accessToken = [jsonResult objectForKey:@"access_token"];
-    client.accountId = [jsonResult objectForKey:@"account"];
     
-    [self.presentingViewController dismissModalViewControllerAnimated:YES];
     DLog(@"All set to do requests as account %@ with access token %@", client.accountId, client.accessToken);
+    if (error) {
+        if (_delegate) {
+            [_delegate singlyErrorLoggingInToService:_targetService withError:error];
+        }
+        return;
+    }
+    
+    NSString* loginError = [jsonResult objectForKey:@"error"];
+    if (loginError) {
+        if (_delegate) {
+            NSError* error = [NSError errorWithDomain:@"SinglySDK" code:100 userInfo:[NSDictionary dictionaryWithObject:loginError forKey:NSLocalizedDescriptionKey]];
+            [_delegate singlyErrorLoggingInToService:_targetService withError:error];
+        }
+        return;
+    }
+    
+    // Save the access token and account id
+    if (_delegate) {
+        client.accessToken = [jsonResult objectForKey:@"access_token"];
+        client.accountId = [jsonResult objectForKey:@"account"];
+
+        [_delegate singlyDidLogInForService:_targetService];
+    }
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    DLog(@"OH NOES: %@", error);
-    // TODO:  Fill this in.
+    if (_delegate) {
+        [_delegate singlyErrorLoggingInToService:_targetService withError:error];
+    }
 }
 @end

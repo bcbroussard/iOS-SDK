@@ -18,12 +18,11 @@
 		827E3EDE15E5528200D30D96 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 827E3EDD15E5528200D30D96 /* main.m */; };
 		827E3EE215E5528200D30D96 /* SinglyAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 827E3EE115E5528200D30D96 /* SinglyAppDelegate.m */; };
 		827E3EE515E5528200D30D96 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 827E3EE315E5528200D30D96 /* MainStoryboard_iPhone.storyboard */; };
-		827E3EE815E5528200D30D96 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 827E3EE615E5528200D30D96 /* MainStoryboard_iPad.storyboard */; };
 		827E3EEB15E5528200D30D96 /* SinglyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827E3EEA15E5528200D30D96 /* SinglyViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		419DBCF015E8841E00573194 /* libSinglySDK.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libSinglySDK.a; path = "../SinglySDK/build/Release-iphoneos/libSinglySDK.a"; sourceTree = "<group>"; };
+		419DBCF015E8841E00573194 /* libSinglySDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSinglySDK.a; path = "../SinglySDK/build/Release-iphoneos/libSinglySDK.a"; sourceTree = "<group>"; };
 		419DBD0D15E8B50900573194 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		419DBD0F15E8B51900573194 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		419DBD1115E8B53300573194 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -38,7 +37,6 @@
 		827E3EE015E5528200D30D96 /* SinglyAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SinglyAppDelegate.h; sourceTree = "<group>"; };
 		827E3EE115E5528200D30D96 /* SinglyAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SinglyAppDelegate.m; sourceTree = "<group>"; };
 		827E3EE415E5528200D30D96 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		827E3EE715E5528200D30D96 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		827E3EE915E5528200D30D96 /* SinglyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SinglyViewController.h; sourceTree = "<group>"; };
 		827E3EEA15E5528200D30D96 /* SinglyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SinglyViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,7 +96,6 @@
 				827E3EE015E5528200D30D96 /* SinglyAppDelegate.h */,
 				827E3EE115E5528200D30D96 /* SinglyAppDelegate.m */,
 				827E3EE315E5528200D30D96 /* MainStoryboard_iPhone.storyboard */,
-				827E3EE615E5528200D30D96 /* MainStoryboard_iPad.storyboard */,
 				827E3EE915E5528200D30D96 /* SinglyViewController.h */,
 				827E3EEA15E5528200D30D96 /* SinglyViewController.m */,
 				827E3ED815E5528200D30D96 /* Supporting Files */,
@@ -171,7 +168,6 @@
 			files = (
 				827E3EDC15E5528200D30D96 /* InfoPlist.strings in Resources */,
 				827E3EE515E5528200D30D96 /* MainStoryboard_iPhone.storyboard in Resources */,
-				827E3EE815E5528200D30D96 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,14 +201,6 @@
 				827E3EE415E5528200D30D96 /* en */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		827E3EE615E5528200D30D96 /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				827E3EE715E5528200D30D96 /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

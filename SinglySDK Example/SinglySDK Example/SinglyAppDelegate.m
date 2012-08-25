@@ -17,9 +17,9 @@
     // Override point for customization after application launch.
 
     SinglyClient *singlyClient = [SinglyClient sharedClient];
-    singlyClient.clientId = @"<MY_ID>";
-    singlyClient.clientSecret = @"<MY_SECRET>";
-    
+    singlyClient.clientId = @"5ed51f6c9760d9faa499c793611d2cd3";
+    singlyClient.clientSecret = @"ac2f8fafa8463e2f1322883bc17f51ec";
+
     return YES;
 }
 							

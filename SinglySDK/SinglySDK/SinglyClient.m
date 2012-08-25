@@ -137,31 +137,113 @@ static NSString* kSinglyAccountIDKey = @"com.singly.accountID";
 
 #pragma mark - Service Methods
 
-+(void) requestFacebook:(NSString*)commandPath
-            withParameters:(NSMutableDictionary*)params
-        andCompletionBlock:(SEResponseBlock) completionBlock 
-                   onError:(SEErrorBlock) errorBlock;
++(void) requestServiceAPI:kSinglyApiName 
+          withPath:(NSString*)commandPath
+    andParameters:(NSDictionary*)params
+andCompletionBlock:(SEResponseBlock) completionBlock 
+           onError:(SEErrorBlock) errorBlock;
 {
+    [[self sharedClient] requestAPI:SINGLY_SERVICES_API_URL(kSinglyApiName, commandPath) withParameters:params andCompletionBlock:completionBlock onError:errorBlock];
 
-    [[self sharedClient] requestAPI:SINGLY_SERVICES_API_URL(kSinglyServiceFacebook, commandPath) withParameters:params andCompletionBlock:completionBlock onError:errorBlock];
 }
 
-+(void) requestTwitter:(NSString*)commandPath
-            withParameters:(NSMutableDictionary*)params
-        andCompletionBlock:(SEResponseBlock) completionBlock 
-                  onError:(SEErrorBlock) errorBlock;
++(void) requestGoogle:(NSString*)commandPath
+       withParameters:(NSMutableDictionary*)params
+   andCompletionBlock:(SEResponseBlock) completionBlock 
+              onError:(SEErrorBlock) errorBlock;
 {
     
-    [[self sharedClient] requestAPI:SINGLY_SERVICES_API_URL(kSinglyServiceTwitter, commandPath) withParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+    [self requestServiceAPI:kSinglyServiceGoogle withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
 }
 
 +(void) requestInstagram:(NSString*)commandPath
+          withParameters:(NSMutableDictionary*)params
+      andCompletionBlock:(SEResponseBlock) completionBlock 
+                 onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceInstagram withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestTwitter:(NSString*)commandPath
         withParameters:(NSMutableDictionary*)params
     andCompletionBlock:(SEResponseBlock) completionBlock 
                onError:(SEErrorBlock) errorBlock;
 {
     
-    [[self sharedClient] requestAPI:SINGLY_SERVICES_API_URL(kSinglyServiceInstagram, commandPath) withParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+    [self requestServiceAPI:kSinglyServiceTwitter withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestZeo:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceZeo withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestLinkedIn:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceLinkedin withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestTumblr:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceTumblr withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestGDocs:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceGdocs withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestGContacts:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceGContacts withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestFitbit:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceFitbit withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestGmail:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceGMail withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestMeetup:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceMeetup withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
 }
 
 +(void) requestFoursquare:(NSString*)commandPath
@@ -170,7 +252,70 @@ static NSString* kSinglyAccountIDKey = @"com.singly.accountID";
                  onError:(SEErrorBlock) errorBlock;
 {
     
-    [[self sharedClient] requestAPI:SINGLY_SERVICES_API_URL(kSinglyServiceFoursquare, commandPath) withParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+    [self requestServiceAPI:kSinglyServiceFoursquare withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestRunkeeper:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceRunkeeper withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestEmail:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceEmail withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestBodymedia:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceBodymedia withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestFacebook:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceFacebook withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestDropbox:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceDropbox withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestYammer:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceYammer withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+}
+
++(void) requestGplus:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+{
+    
+    [self requestServiceAPI:kSinglyServiceGPlus withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
 }
 
 +(void) requestGithub:(NSString*)commandPath
@@ -179,27 +324,18 @@ static NSString* kSinglyAccountIDKey = @"com.singly.accountID";
                   onError:(SEErrorBlock) errorBlock;
 {
     
-    [[self sharedClient] requestAPI:SINGLY_SERVICES_API_URL(kSinglyServiceGithub, commandPath) withParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+    [self requestServiceAPI:kSinglyServiceGithub withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
 }
 
-+(void) requestGoogleContacts:(NSString*)commandPath
-           withParameters:(NSMutableDictionary*)params
-       andCompletionBlock:(SEResponseBlock) completionBlock 
-                  onError:(SEErrorBlock) errorBlock;
++(void) requestWithings:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
 {
     
-    [[self sharedClient] requestAPI:SINGLY_SERVICES_API_URL(kSinglyServiceGoogleContacts, commandPath) withParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+    [self requestServiceAPI:kSinglyServiceWithings withPath:commandPath andParameters:params andCompletionBlock:completionBlock onError:errorBlock];
 }
 
-#pragma mark - Overridden methods
 
-//-(void)prepareHeaders:(MKNetworkOperation *)operation
-//{    
-//    if([self isLoggedIn])
-//    {
-//        [operation addHeaders:[[NSDictionary alloc] initWithObjectsAndKeys:self.zbAuthToken,@"X-AUTH-TOKEN", nil]];
-//    }
-//    
-//}
 
 @end

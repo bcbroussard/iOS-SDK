@@ -27,12 +27,9 @@
     
     DLog(@"Session account is %@ and access token is %@", [SinglyClient sharedClient].accountId, [SinglyClient sharedClient].accessToken);
 
-    if(![[SinglyClient sharedClient] isLoggedIn])
+
+    if([[SinglyClient sharedClient] isLoggedIn])
     {
-        _loginVC = [[SinglyLogInViewController alloc] initWithService:kSinglyServiceInstagram];
-        [self presentModalViewController:_loginVC animated:YES];
-        
-    } else {
         DLog(@"We're already done!");
         
         [SinglyClient requestInstagram:@"self"//requestFacebook:@"profiles" 
@@ -64,4 +61,25 @@
     }
 }
 
+#pragma mark - SinglySessionDelegate
+
+-(void)singlyDidLogInForService:(NSString *)service;
+{
+    [self dismissModalViewControllerAnimated:YES];
+    _loginVC = nil;
+}
+-(void)singlyErrorLoggingInToService:(NSString *)service withError:(NSError *)error;
+{
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Login Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+    [self dismissModalViewControllerAnimated:YES];
+    _loginVC = nil;
+}
+
+- (IBAction)loginCLick:(id)sender {
+    SinglyLogInViewController *loginVC = [[SinglyLogInViewController alloc] initWithService:kSinglyServiceInstagram];
+    loginVC.delegate = self;
+    
+    [self presentModalViewController:loginVC animated:YES];
+}
 @end

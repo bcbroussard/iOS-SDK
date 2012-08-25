@@ -29,34 +29,115 @@ typedef void (^SEErrorBlock)(NSError *error);
 
 + (SinglyClient *)sharedClient;
 
-+(void) requestFacebook:(NSString*)commandPath
-         withParameters:(NSDictionary*)params
-     andCompletionBlock:(SEResponseBlock) completionBlock 
-                onError:(SEErrorBlock) errorBlock;
++(void) requestServiceAPI:kSinglyApiName 
+                 withPath:(NSString*)commandPath
+            andParameters:(NSDictionary*)params
+       andCompletionBlock:(SEResponseBlock) completionBlock 
+                  onError:(SEErrorBlock) errorBlock;
+
++(void) requestGoogle:(NSString*)commandPath
+       withParameters:(NSMutableDictionary*)params
+   andCompletionBlock:(SEResponseBlock) completionBlock 
+              onError:(SEErrorBlock) errorBlock;
+
++(void) requestInstagram:(NSString*)commandPath
+          withParameters:(NSMutableDictionary*)params
+      andCompletionBlock:(SEResponseBlock) completionBlock 
+                 onError:(SEErrorBlock) errorBlock;
 
 +(void) requestTwitter:(NSString*)commandPath
-        withParameters:(NSDictionary*)params
+        withParameters:(NSMutableDictionary*)params
     andCompletionBlock:(SEResponseBlock) completionBlock 
                onError:(SEErrorBlock) errorBlock;
 
-+(void) requestInstagram:(NSString*)commandPath
-          withParameters:(NSDictionary*)params
++(void) requestZeo:(NSString*)commandPath
+    withParameters:(NSMutableDictionary*)params
+andCompletionBlock:(SEResponseBlock) completionBlock 
+           onError:(SEErrorBlock) errorBlock;
+
++(void) requestLinkedIn:(NSString*)commandPath
+         withParameters:(NSMutableDictionary*)params
+     andCompletionBlock:(SEResponseBlock) completionBlock 
+                onError:(SEErrorBlock) errorBlock;
+
++(void) requestTumblr:(NSString*)commandPath
+       withParameters:(NSMutableDictionary*)params
+   andCompletionBlock:(SEResponseBlock) completionBlock 
+              onError:(SEErrorBlock) errorBlock;
+
++(void) requestGDocs:(NSString*)commandPath
+      withParameters:(NSMutableDictionary*)params
+  andCompletionBlock:(SEResponseBlock) completionBlock 
+             onError:(SEErrorBlock) errorBlock;
+
++(void) requestGContacts:(NSString*)commandPath
+          withParameters:(NSMutableDictionary*)params
       andCompletionBlock:(SEResponseBlock) completionBlock 
                  onError:(SEErrorBlock) errorBlock;
+
++(void) requestFitbit:(NSString*)commandPath
+       withParameters:(NSMutableDictionary*)params
+   andCompletionBlock:(SEResponseBlock) completionBlock 
+              onError:(SEErrorBlock) errorBlock;
+
++(void) requestGmail:(NSString*)commandPath
+      withParameters:(NSMutableDictionary*)params
+  andCompletionBlock:(SEResponseBlock) completionBlock 
+             onError:(SEErrorBlock) errorBlock;
+
++(void) requestMeetup:(NSString*)commandPath
+       withParameters:(NSMutableDictionary*)params
+   andCompletionBlock:(SEResponseBlock) completionBlock 
+              onError:(SEErrorBlock) errorBlock;
 
 +(void) requestFoursquare:(NSString*)commandPath
            withParameters:(NSMutableDictionary*)params
        andCompletionBlock:(SEResponseBlock) completionBlock 
                   onError:(SEErrorBlock) errorBlock;
 
++(void) requestRunkeeper:(NSString*)commandPath
+          withParameters:(NSMutableDictionary*)params
+      andCompletionBlock:(SEResponseBlock) completionBlock 
+                 onError:(SEErrorBlock) errorBlock;
+
++(void) requestEmail:(NSString*)commandPath
+      withParameters:(NSMutableDictionary*)params
+  andCompletionBlock:(SEResponseBlock) completionBlock 
+             onError:(SEErrorBlock) errorBlock;
+
++(void) requestBodymedia:(NSString*)commandPath
+          withParameters:(NSMutableDictionary*)params
+      andCompletionBlock:(SEResponseBlock) completionBlock 
+                 onError:(SEErrorBlock) errorBlock;
+
++(void) requestFacebook:(NSString*)commandPath
+         withParameters:(NSMutableDictionary*)params
+     andCompletionBlock:(SEResponseBlock) completionBlock 
+                onError:(SEErrorBlock) errorBlock;
+
++(void) requestDropbox:(NSString*)commandPath
+        withParameters:(NSMutableDictionary*)params
+    andCompletionBlock:(SEResponseBlock) completionBlock 
+               onError:(SEErrorBlock) errorBlock;
+
++(void) requestYammer:(NSString*)commandPath
+       withParameters:(NSMutableDictionary*)params
+   andCompletionBlock:(SEResponseBlock) completionBlock 
+              onError:(SEErrorBlock) errorBlock;
+
++(void) requestGplus:(NSString*)commandPath
+      withParameters:(NSMutableDictionary*)params
+  andCompletionBlock:(SEResponseBlock) completionBlock 
+             onError:(SEErrorBlock) errorBlock;
+
 +(void) requestGithub:(NSString*)commandPath
        withParameters:(NSMutableDictionary*)params
    andCompletionBlock:(SEResponseBlock) completionBlock 
               onError:(SEErrorBlock) errorBlock;
 
-+(void) requestGoogleContacts:(NSString*)commandPath
-               withParameters:(NSMutableDictionary*)params
-           andCompletionBlock:(SEResponseBlock) completionBlock 
-                      onError:(SEErrorBlock) errorBlock;
++(void) requestWithings:(NSString*)commandPath
+         withParameters:(NSMutableDictionary*)params
+     andCompletionBlock:(SEResponseBlock) completionBlock 
+                onError:(SEErrorBlock) errorBlock;
 
 @end
