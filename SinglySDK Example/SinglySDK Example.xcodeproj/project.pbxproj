@@ -266,7 +266,6 @@
 				INFOPLIST_FILE = "SinglySDK Example/SinglySDK Example-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/Singly_iOS-ewvlnpeoshdiexfnrpknhwfkuwuj/Build/Products/Debug-iphoneos\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -282,7 +281,6 @@
 				INFOPLIST_FILE = "SinglySDK Example/SinglySDK Example-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../../Library/Developer/Xcode/DerivedData/Singly_iOS-ewvlnpeoshdiexfnrpknhwfkuwuj/Build/Products/Debug-iphoneos\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

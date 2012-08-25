@@ -14,6 +14,7 @@
     UIWebView* webview_;
     NSString* targetService;
     NSMutableData* responseData;
+    UIView* pendingLoginView;
     UIActivityIndicatorView* activityView;
 }
 -(void)processAccessTokenWithData:(NSData*)data;
@@ -40,7 +41,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    DLog(@"View did load for Singly Login");
 	// Do any additional setup after loading the view.
 }
 
@@ -67,7 +67,6 @@
     if (self.flags) {
         urlStr = [urlStr stringByAppendingFormat:@"&flag=%@", self.flags];
     }
-    DLog(@"Going to auth url %@", urlStr);
     [webview_ loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
 }
 -(void)processAccessTokenWithData:(NSData*)data;
@@ -78,9 +77,19 @@
 #pragma mark - UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType;
 {
-    DLog(@"Going to %@", [request.URL absoluteString]);
-    DLog(@"scheme(%@) host(%@)", request.URL.scheme, request.URL.host);
     if ([request.URL.scheme isEqualToString:@"singly"] && [request.URL.host isEqualToString:@"authComplete"]) {
+
+        pendingLoginView = [[UIView alloc] initWithFrame:self.view.bounds];
+        pendingLoginView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+        
+        activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        activityView.frame = CGRectMake(140, 180, activityView.bounds.size.width, activityView.bounds.size.height);
+        [pendingLoginView addSubview:activityView];
+        [activityView startAnimating];
+        
+        [self.view addSubview:pendingLoginView];
+        [self.view bringSubviewToFront:pendingLoginView];
+        
         // Find the code and request an access token
         NSArray *parameterPairs = [request.URL.query componentsSeparatedByString:@"&"];
         
@@ -97,7 +106,6 @@
         }
         
         if ([parameters objectForKey:@"code"]) {
-            DLog(@"Getting the tokens");
             NSURL* accessTokenURL = [NSURL URLWithString:@"https://api.singly.com/oauth/access_token"];
             NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:accessTokenURL];
             req.HTTPMethod = @"POST";
@@ -105,7 +113,6 @@
             responseData = [NSMutableData data];
             [NSURLConnection connectionWithRequest:req delegate:self];
         }
-        DLog(@"Request the token");
         return FALSE;
     }
     return TRUE;
@@ -139,15 +146,34 @@
 {
     NSError* error;
     NSDictionary* jsonResult = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
+    if (error) {
+        if (session_.delegate) {
+            [session_.delegate singlySession:session_ errorLoggingInToService:targetService withError:error];
+        }
+        return;
+    }
+    
+    NSString* loginError = [jsonResult objectForKey:@"error"];
+    if (loginError) {
+        if (session_.delegate) {
+            NSError* error = [NSError errorWithDomain:@"SinglySDK" code:100 userInfo:[NSDictionary dictionaryWithObject:loginError forKey:NSLocalizedDescriptionKey]];
+            [session_.delegate singlySession:session_ errorLoggingInToService:targetService withError:error];
+        }
+        return;
+    }
+    
+    // Save the access token and account id
     session_.accessToken = [jsonResult objectForKey:@"access_token"];
     session_.accountID = [jsonResult objectForKey:@"account"];
-    [self removeFromParentViewController];
-    DLog(@"All set to do requests as account %@ with access token %@", session_.accountID, session_.accessToken);
+    if (session_.delegate) {
+        [session_.delegate singlySession:session_ didLogInForService:targetService];
+    }
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    DLog(@"OH NOES: %@", error);
-    // TODO:  Fill this in.
+    if (session_.delegate) {
+        [session_.delegate singlySession:session_ errorLoggingInToService:targetService withError:error];
+    }
 }
 @end
