@@ -7,13 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SinglySession.h"
+#import "SinglyClient.h"
 
 @interface SinglyLogInViewController : UIViewController<UIWebViewDelegate, NSURLConnectionDataDelegate>
-- (id)initWithSession:(SinglySession*)session forService:(NSString*)serviceId;
+- (id)initWithService:(NSString*)serviceId;
 
-@property (strong, nonatomic) NSString* clientID;
-@property (strong, nonatomic) NSString* clientSecret;
 @property (strong, nonatomic) NSString* scope;
 @property (strong, nonatomic) NSString* flags;
 

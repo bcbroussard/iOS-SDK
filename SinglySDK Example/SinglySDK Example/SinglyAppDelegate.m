@@ -15,6 +15,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+
+    SinglyClient *singlyClient = [SinglyClient sharedClient];
+    singlyClient.clientId = @"<MY_ID>";
+    singlyClient.clientSecret = @"<MY_SECRET>";
+    
     return YES;
 }
 							

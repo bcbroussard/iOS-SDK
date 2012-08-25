@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SinglyClient.h"
+
+#define ApplicationDelegate ((SinglyAppDelegate *)[UIApplication sharedApplication].delegate)
 
 @interface SinglyAppDelegate : UIResponder <UIApplicationDelegate>
 {

@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <SinglySDK.h>
+#import "SinglySDK.h"
+#import "MKNetworkKit.h"
 
-@interface SinglyViewController : UIViewController<SinglySessionDelegate>
+@interface SinglyViewController : UIViewController
 
-#pragma mark - SinglySessionDelegate
--(void)singlyResultForAPI:(NSString *)api withJSON:(id)json;
--(void)singlyErrorForAPI:(NSString *)api withError:(NSError *)error;
 @end

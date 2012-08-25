@@ -7,11 +7,9 @@
 //
 
 #import "SinglyViewController.h"
-
 @interface SinglyViewController ()
 {
-    SinglyLogInViewController* loginVC_;
-    SinglySession* session_;
+    SinglyLogInViewController* _loginVC;
 }
 @end
 
@@ -22,30 +20,33 @@
     DLog(@"View will appear for app");
 }
 
--(void) viewDidAppear:(BOOL)animated
-{
-    DLog(@"View did appear");
-    [session_ checkReadyWithBlock:^(BOOL ready){
-        if(!ready) {
-            loginVC_ = [[SinglyLogInViewController alloc] initWithSession:session_ forService:kSinglyServiceFacebook];
-            loginVC_.clientID = @"5ed51f6c9760d9faa499c793611d2cd3";
-            loginVC_.clientSecret = @"ac2f8fafa8463e2f1322883bc17f51ec";
-            [self presentModalViewController:loginVC_ animated:YES];
-        } else {
-            DLog(@"We're already done!");
-            [session_ requestAPI:@"profiles" withParameters:nil];
-        }
-    }];
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    session_ = [[SinglySession alloc] init];
-    session_.delegate = self;
-    DLog(@"Session account is %@ and access token is %@", session_.accountID, session_.accessToken);
-	// Do any additional setup after loading the view, typically from a nib.
+    DLog(@"Session account is %@ and access token is %@", [SinglyClient sharedClient].accountId, [SinglyClient sharedClient].accessToken);
+
+    if(![[SinglyClient sharedClient] isLoggedIn])
+    {
+        _loginVC = [[SinglyLogInViewController alloc] initWithService:kSinglyServiceInstagram];
+        [self presentModalViewController:_loginVC animated:YES];
+        
+    } else {
+        DLog(@"We're already done!");
+        
+        [SinglyClient requestInstagram:@"self"//requestFacebook:@"profiles" 
+                        withParameters:nil                                   
+                    andCompletionBlock:^(id jsonResponse)
+         {
+             DLog(@"Got a result:\n%@", jsonResponse);
+             
+         }onError:^(NSError *error)
+         {
+             DLog(@"Error: %@", error);
+         }];
+    }
+
 }
 
 - (void)viewDidUnload
@@ -63,13 +64,4 @@
     }
 }
 
-#pragma mark - SinglySessionDelegate
--(void)singlyResultForAPI:(NSString *)api withJSON:(id)json;
-{
-    DLog(@"Got a result for %@:\n%@", api, json);
-}
--(void)singlyErrorForAPI:(NSString *)api withError:(NSError *)error;
-{
-    DLog(@"Error for api(%@): %@", api, error);
-}
 @end

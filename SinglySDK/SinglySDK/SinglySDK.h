@@ -6,12 +6,13 @@
 //  Copyright (c) 2012 Singly. All rights reserved.
 //
 
-#import "SinglyLoginViewController.h"
+#import "SinglyLogInViewController.h"
+#import "SinglyClient.h"
 
 // Service id constants
-NSString* kSinglyServiceFacebook = @"facebook";
-NSString* kSinglyServiceTwitter = @"twitter";
-NSString* kSinglyServiceGithub = @"github";
-NSString* kSinglyServiceGoogleContacts = @"gcontacts";
-NSString* kSinglyServiceFoursquare = @"foursquare";
-NSString* kSinglyServiceInstagram = @"instagram";
+static NSString* kSinglyServiceFacebook = @"facebook";
+static NSString* kSinglyServiceTwitter = @"twitter";
+static NSString* kSinglyServiceGithub = @"github";
+static NSString* kSinglyServiceGoogleContacts = @"gcontacts";
+static NSString* kSinglyServiceFoursquare = @"foursquare";
+static NSString* kSinglyServiceInstagram = @"instagram";

@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		419DBCE215E8400C00573194 /* SinglyClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 419DBCE115E8400C00573194 /* SinglyClient.m */; };
+		419DBD1415E8B54500573194 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419DBD1315E8B54500573194 /* Security.framework */; };
+		419DBD1615E8B54A00573194 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419DBD1515E8B54A00573194 /* CFNetwork.framework */; };
+		419DBD1815E8B55300573194 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419DBD1715E8B55300573194 /* SystemConfiguration.framework */; };
+		419DBD7715E8DAFF00573194 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 419DBD7615E8DAEA00573194 /* libMKNetworkKit-iOS.a */; };
 		827E3E9215E3E9D000D30D96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827E3E9115E3E9D000D30D96 /* Foundation.framework */; };
-		827E3E9715E3E9D000D30D96 /* SinglySDK.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 827E3E9615E3E9D000D30D96 /* SinglySDK.h */; };
 		827E3E9915E3E9D000D30D96 /* SinglySDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 827E3E9815E3E9D000D30D96 /* SinglySDK.m */; };
 		827E3EA115E3E9D000D30D96 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827E3EA015E3E9D000D30D96 /* SenTestingKit.framework */; };
 		827E3EA315E3E9D000D30D96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827E3EA215E3E9D000D30D96 /* UIKit.framework */; };
@@ -16,11 +20,17 @@
 		827E3EA715E3E9D000D30D96 /* libSinglySDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827E3E8E15E3E9D000D30D96 /* libSinglySDK.a */; };
 		827E3EAD15E3E9D000D30D96 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 827E3EAB15E3E9D000D30D96 /* InfoPlist.strings */; };
 		827E3EB015E3E9D000D30D96 /* SinglySDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 827E3EAF15E3E9D000D30D96 /* SinglySDKTests.m */; };
-		827E3EBB15E458E300D30D96 /* SinglySession.m in Sources */ = {isa = PBXBuildFile; fileRef = 827E3EBA15E458E300D30D96 /* SinglySession.m */; };
 		827E3EBE15E5367700D30D96 /* SinglyLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 827E3EBD15E5367700D30D96 /* SinglyLogInViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		419DBD7515E8DAEA00573194 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 419DBD6E15E8DAEA00573194 /* MKNetworkKit-iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ABB5C25C148B3AE00056D3E9;
+			remoteInfo = "MKNetworkKit-iOS";
+		};
 		827E3EA515E3E9D000D30D96 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 827E3E8515E3E9D000D30D96 /* Project object */;
@@ -30,20 +40,13 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		827E3E8C15E3E9D000D30D96 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-				827E3E9715E3E9D000D30D96 /* SinglySDK.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
+		419DBCE015E8400C00573194 /* SinglyClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinglyClient.h; sourceTree = "<group>"; };
+		419DBCE115E8400C00573194 /* SinglyClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinglyClient.m; sourceTree = "<group>"; };
+		419DBD1315E8B54500573194 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		419DBD1515E8B54A00573194 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		419DBD1715E8B55300573194 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		419DBD6E15E8DAEA00573194 /* MKNetworkKit-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MKNetworkKit-iOS.xcodeproj"; path = "../MKNetworkKit-iOS.xcodeproj"; sourceTree = "<group>"; };
 		827E3E8E15E3E9D000D30D96 /* libSinglySDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSinglySDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		827E3E9115E3E9D000D30D96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827E3E9515E3E9D000D30D96 /* SinglySDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SinglySDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -56,8 +59,6 @@
 		827E3EAC15E3E9D000D30D96 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		827E3EAE15E3E9D000D30D96 /* SinglySDKTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SinglySDKTests.h; sourceTree = "<group>"; };
 		827E3EAF15E3E9D000D30D96 /* SinglySDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SinglySDKTests.m; sourceTree = "<group>"; };
-		827E3EB915E458E300D30D96 /* SinglySession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinglySession.h; sourceTree = "<group>"; };
-		827E3EBA15E458E300D30D96 /* SinglySession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinglySession.m; sourceTree = "<group>"; };
 		827E3EBC15E5367600D30D96 /* SinglyLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinglyLogInViewController.h; sourceTree = "<group>"; };
 		827E3EBD15E5367700D30D96 /* SinglyLogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinglyLogInViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -67,6 +68,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				419DBD7715E8DAFF00573194 /* libMKNetworkKit-iOS.a in Frameworks */,
+				419DBD1815E8B55300573194 /* SystemConfiguration.framework in Frameworks */,
+				419DBD1615E8B54A00573194 /* CFNetwork.framework in Frameworks */,
+				419DBD1415E8B54500573194 /* Security.framework in Frameworks */,
 				827E3E9215E3E9D000D30D96 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -85,6 +90,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		419DBD3D15E8D8C600573194 /* MKNetworkKit-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				419DBD6E15E8DAEA00573194 /* MKNetworkKit-iOS.xcodeproj */,
+			);
+			name = "MKNetworkKit-iOS";
+			path = "../../MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS";
+			sourceTree = "<group>";
+		};
+		419DBD6F15E8DAEA00573194 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				419DBD7615E8DAEA00573194 /* libMKNetworkKit-iOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		827E3E8315E3E9D000D30D96 = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +129,9 @@
 		827E3E9015E3E9D000D30D96 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				419DBD1715E8B55300573194 /* SystemConfiguration.framework */,
+				419DBD1515E8B54A00573194 /* CFNetwork.framework */,
+				419DBD1315E8B54500573194 /* Security.framework */,
 				827E3E9115E3E9D000D30D96 /* Foundation.framework */,
 				827E3EA015E3E9D000D30D96 /* SenTestingKit.framework */,
 				827E3EA215E3E9D000D30D96 /* UIKit.framework */,
@@ -119,11 +144,12 @@
 			children = (
 				827E3E9615E3E9D000D30D96 /* SinglySDK.h */,
 				827E3E9815E3E9D000D30D96 /* SinglySDK.m */,
-				827E3E9415E3E9D000D30D96 /* Supporting Files */,
-				827E3EB915E458E300D30D96 /* SinglySession.h */,
-				827E3EBA15E458E300D30D96 /* SinglySession.m */,
 				827E3EBC15E5367600D30D96 /* SinglyLogInViewController.h */,
 				827E3EBD15E5367700D30D96 /* SinglyLogInViewController.m */,
+				419DBCE015E8400C00573194 /* SinglyClient.h */,
+				419DBCE115E8400C00573194 /* SinglyClient.m */,
+				419DBD3D15E8D8C600573194 /* MKNetworkKit-iOS */,
+				827E3E9415E3E9D000D30D96 /* Supporting Files */,
 			);
 			path = SinglySDK;
 			sourceTree = "<group>";
@@ -164,7 +190,6 @@
 			buildPhases = (
 				827E3E8A15E3E9D000D30D96 /* Sources */,
 				827E3E8B15E3E9D000D30D96 /* Frameworks */,
-				827E3E8C15E3E9D000D30D96 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -213,6 +238,12 @@
 			mainGroup = 827E3E8315E3E9D000D30D96;
 			productRefGroup = 827E3E8F15E3E9D000D30D96 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 419DBD6F15E8DAEA00573194 /* Products */;
+					ProjectRef = 419DBD6E15E8DAEA00573194 /* MKNetworkKit-iOS.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				827E3E8D15E3E9D000D30D96 /* SinglySDK */,
@@ -220,6 +251,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		419DBD7615E8DAEA00573194 /* libMKNetworkKit-iOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libMKNetworkKit-iOS.a";
+			remoteRef = 419DBD7515E8DAEA00573194 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		827E3E9C15E3E9D000D30D96 /* Resources */ = {
@@ -254,8 +295,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				827E3E9915E3E9D000D30D96 /* SinglySDK.m in Sources */,
-				827E3EBB15E458E300D30D96 /* SinglySession.m in Sources */,
 				827E3EBE15E5367700D30D96 /* SinglyLogInViewController.m in Sources */,
+				419DBCE215E8400C00573194 /* SinglyClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,24 +379,36 @@
 		827E3EB415E3E9D000D30D96 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/SinglySDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SinglySDK/SinglySDK-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				HEADER_SEARCH_PATHS = "${SRCROOT}/../MKNetworkKit/MKNetworkKit/**";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
 		827E3EB515E3E9D000D30D96 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				DSTROOT = /tmp/SinglySDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SinglySDK/SinglySDK-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
+				HEADER_SEARCH_PATHS = "${SRCROOT}/../MKNetworkKit/MKNetworkKit/**";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};

@@ -10,29 +10,33 @@
 
 @interface SinglyLogInViewController ()
 {
-    SinglySession* session_;
-    UIWebView* webview_;
-    NSString* targetService;
-    NSMutableData* responseData;
+    UIWebView* _webview;
+    NSString* _targetService;
+    NSMutableData* _responseData;
     UIActivityIndicatorView* activityView;
 }
+
 -(void)processAccessTokenWithData:(NSData*)data;
+
 @end
 
 @implementation SinglyLogInViewController
 
-@synthesize clientID = _clientID, clientSecret =_clientSecret, scope =_scope, flags = _flags;
+@synthesize scope =_scope, flags = _flags;
 
-- (id)initWithSession:(SinglySession*)session forService:(NSString*)serviceId;
+- (id)init
 {
     self = [super init];
+    if (self) {        
+    }
+    return self;
+}
+
+- (id)initWithService:(NSString*)serviceId;
+{
+    self = [self init];
     if (self) {
-        session_ = session;
-        targetService = serviceId;
-        webview_ = [[UIWebView alloc] initWithFrame:self.view.frame];
-        webview_.scalesPageToFit = YES;
-        webview_.delegate = self;
-        self.view = webview_;
+        _targetService = serviceId;
     }
     return self;
 }
@@ -42,6 +46,27 @@
     [super viewDidLoad];
     DLog(@"View did load for Singly Login");
 	// Do any additional setup after loading the view.
+    
+    _webview = [[UIWebView alloc] initWithFrame:self.view.frame];
+    _webview.scalesPageToFit = YES;
+    _webview.delegate = self;
+    [self.view addSubview:_webview];
+
+    SinglyClient *client = [SinglyClient sharedClient];
+    
+    NSString* urlStr = [NSString stringWithFormat:@"https://api.singly.com/oauth/authorize?redirect_uri=singly://authComplete&service=%@&client_id=%@", _targetService, client.clientId];
+    
+    if ([client.accountId length] > 0) {
+        urlStr = [urlStr stringByAppendingFormat:@"&account=%@",  client.accountId];
+    }
+    if ([self.scope length] > 0) {
+        urlStr = [urlStr stringByAppendingFormat:@"&scope=%@", self.scope];
+    }
+    if ([self.flags length] > 0) {
+        urlStr = [urlStr stringByAppendingFormat:@"&flag=%@", self.flags];
+    }
+    DLog(@"Going to auth url %@", urlStr);
+    [_webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
 }
 
 - (void)viewDidUnload
@@ -55,21 +80,6 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)viewWillAppear:(BOOL)animated;
-{
-    NSString* urlStr = [NSString stringWithFormat:@"https://api.singly.com/oauth/authorize?redirect_uri=singly://authComplete&service=%@&client_id=%@", targetService, self.clientID];
-    if (session_.accountID) {
-        urlStr = [urlStr stringByAppendingFormat:@"&account=%@", session_.accountID];
-    }
-    if (self.scope) {
-        urlStr = [urlStr stringByAppendingFormat:@"&scope=%@", self.scope];
-    }
-    if (self.flags) {
-        urlStr = [urlStr stringByAppendingFormat:@"&flag=%@", self.flags];
-    }
-    DLog(@"Going to auth url %@", urlStr);
-    [webview_ loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
-}
 -(void)processAccessTokenWithData:(NSData*)data;
 {
     
@@ -98,11 +108,13 @@
         
         if ([parameters objectForKey:@"code"]) {
             DLog(@"Getting the tokens");
+            SinglyClient *client = [SinglyClient sharedClient];
+            
             NSURL* accessTokenURL = [NSURL URLWithString:@"https://api.singly.com/oauth/access_token"];
             NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL:accessTokenURL];
             req.HTTPMethod = @"POST";
-            req.HTTPBody = [[NSString stringWithFormat:@"client_id=%@&client_secret=%@&code=%@", self.clientID, self.clientSecret, [parameters objectForKey:@"code"]] dataUsingEncoding:NSUTF8StringEncoding];
-            responseData = [NSMutableData data];
+            req.HTTPBody = [[NSString stringWithFormat:@"client_id=%@&client_secret=%@&code=%@", client.clientId, client.clientSecret, [parameters objectForKey:@"code"]] dataUsingEncoding:NSUTF8StringEncoding];
+            _responseData = [NSMutableData data];
             [NSURLConnection connectionWithRequest:req delegate:self];
         }
         DLog(@"Request the token");
@@ -127,22 +139,24 @@
 #pragma mark - NSURLConnectionDataDelegate
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
 {
-    [responseData setLength:0];
+    [_responseData setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
 {
-    [responseData appendData:data];
+    [_responseData appendData:data];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection;
 {
     NSError* error;
-    NSDictionary* jsonResult = [NSJSONSerialization JSONObjectWithData:responseData options:kNilOptions error:&error];
-    session_.accessToken = [jsonResult objectForKey:@"access_token"];
-    session_.accountID = [jsonResult objectForKey:@"account"];
-    [self removeFromParentViewController];
-    DLog(@"All set to do requests as account %@ with access token %@", session_.accountID, session_.accessToken);
+    NSDictionary* jsonResult = [NSJSONSerialization JSONObjectWithData:_responseData options:kNilOptions error:&error];
+    SinglyClient *client = [SinglyClient sharedClient];
+    client.accessToken = [jsonResult objectForKey:@"access_token"];
+    client.accountId = [jsonResult objectForKey:@"account"];
+    
+    [self.presentingViewController dismissModalViewControllerAnimated:YES];
+    DLog(@"All set to do requests as account %@ with access token %@", client.accountId, client.accessToken);
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
