@@ -12,68 +12,42 @@ Now that we're ready we can either start a new iOS application or use an existin
 In order to use the SDK make sure that you setup your header search path to point to the
 `SinglySDK` directory and that your project includes the libSinglySDK.a library.
 
-To start using the SDK we'll first need a `SinglySession` object.  You'll probably
-want to maintain this in your AppDelegate or root view controller.  You'll also need to
-assign a delegate to it that implements the `SinglySessionDelegate` protocol.
 
+To login, create a ViewController with a SinglyLoginDelgate
 ```objective-c
-SinglySession* session = [[SinglySession alloc] init];
-session.delegate = self;
+#import "SinglySDK.h"
+
+@interface SinglyViewController : UIViewController<SinglyLoginDelegate>
 ```
 
-The `SinglySession` has two other properties:
-* `accessToken` - Your Singly access token.  You should not need to access this unless
-  you really need to do something that does not fit into the current SDK.
-* `accountID` - Your Singly account ID.
-
-Both of these are saved between runs in the `NSUserDefaults` and should be setup using
-a `SinglyLoginViewController`.  To see if the session was stored and immediately 
-usable, without loggin in again.  We can use the `checkReadyWithCompletionHandler:`.
+Then present a SinglyLoginViewController for a user to enter credentials
 
 ```objective-c
-[session checkReadyWithCompletionHandler:^(BOOL ready){
-    if(!ready) {
-        // We're not logged in and we should use SinglyLoginViewController to connect
-    } else {
-        // We're all set and can start making requests
-    }
-}];
-```
+SinglyLogInViewController *loginVC = [[SinglyLogInViewController alloc] initWithService:kSinglyServiceInstagram];
+loginVC.delegate = self;
 
-If the session is not ready, or needs to connect a different service, the 
-`SinglyLoginViewController` gives you a consistent and simple way to connect to
-any of the services that Singly supports.  This is a fully standard
-`UIViewController` with the extra bits needed to do the Singly auth.  When it
-finishes or errors it uses the `SinglySessionDelegate` to fire the correct events.
-
-```objective-c
-SinglyLoginViewController* loginVC = [[SinglyLogInViewController alloc] initWithSession:session_ forService:kSinglyServiceFacebook];
-loginVC.clientID = @"<client id here>";
-loginVC.clientSecret = @"<client secret here>";
 [self presentModalViewController:loginVC animated:YES];
-```
 
+```
 The service that you define can be any string of the services that Singly supports,
 but we have these defined as constants for you in the SinglySDK.h.
 
-An example implementation of the `SinglySessionDelegate` is:
+An example implementation of the `SinglyLoginDelegate` is:
 
 ```objective-c
-#pragma mark - SinglySessionDelegate
--(void)singlySession:(SinglySession *)session didLogInForService:(NSString *)service;
+#pragma mark - SinglyLoginDelegate
+
+-(void)singlyDidLogInForService:(NSString *)service;
 {
     [self dismissModalViewControllerAnimated:YES];
-    loginVC = nil;
-    
-    // We're ready to rock!  Go do something amazing!
 }
--(void)singlySession:(SinglySession *)session errorLoggingInToService:(NSString *)service withError:(NSError *)error;
+-(void)singlyErrorLoggingInToService:(NSString *)service withError:(NSError *)error;
 {
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Login Error" message:[error localizedDescription] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     [self dismissModalViewControllerAnimated:YES];
-    loginVC = nil;
 }
+
 ```
 
 Once we have a valid session we can start making API requests.  We can make
@@ -94,7 +68,7 @@ or
 
 Download a zipped copy and extract to your project's top directory
 
-Run git submodule update to download MKNetworkKit dependency
+Run *git submodule update* from the terminal inside the SinglySDK directory to download MKNetworkKit and SSKeychain project dependencies
 
 Open your Project Settings and goto Build Settings -> Header Search Paths
 Add "${SRCROOT}/../" including the quotes

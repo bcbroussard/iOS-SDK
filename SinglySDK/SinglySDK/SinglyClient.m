@@ -8,18 +8,24 @@
 
 #import "SinglyClient.h"
 #import "SinglySDK.h"
+#import "SSKeychain.h"
 
 #define SINGLY_BASE_API_URL(api) [NSString stringWithFormat:@"https://api.singly.com/v0/%@", api]
 
 #define SINGLY_TYPES_API_URL(type, endPoint) [NSString stringWithFormat:@"%@/%@/%@", SINGLY_BASE_API_URL(@"types"), type, endPoint]
 #define SINGLY_SERVICES_API_URL(service, endPoint) [NSString stringWithFormat:@"%@/%@/%@", SINGLY_BASE_API_URL(@"services"), service, endPoint]
 
+//Credentials
+#define SINGLY_KEYCHAIN_NAME [[NSBundle mainBundle] bundleIdentifier]
 
-static NSString* kSinglyAccessTokenKey = @"com.singly.accessToken";
-static NSString* kSinglyAccountIDKey = @"com.singly.accountID";
+static NSString *const kSinglyAccessTokenKey=@"accessToken";
+static NSString *const kSinglyAccountIdKey=@"accountId";
+
 
 @interface SinglyClient ()
-- (NSString *) encodeStringWithParams:(NSDictionary *)params;
+- (void)flushAccessTokens; 
+- (void) setPassword:(NSString *)password forKey:(NSString *)keyId;
+- (NSString*)getPasswordWithKey:(NSString *) keyId;
 
 @end
 
@@ -29,33 +35,86 @@ static NSString* kSinglyAccountIDKey = @"com.singly.accountID";
 
 -(void)setAccountId:(NSString *)accountId
 {
-    NSUserDefaults *_userDefaults = [NSUserDefaults standardUserDefaults];    
-    [_userDefaults setObject:accountId forKey:kSinglyAccountIDKey];
-    [_userDefaults synchronize];
+    [self setPassword:accountId forKey:kSinglyAccountIdKey];
 }
 
 -(NSString*)accountId;
 {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kSinglyAccountIDKey];
+    return [self getPasswordWithKey:kSinglyAccountIdKey];
 }
 
 -(void)setAccessToken:(NSString *)accessToken;
 {
-    DLog(@"Saved accesstoken");
-    NSUserDefaults *_userDefaults = [NSUserDefaults standardUserDefaults];    
-    [_userDefaults setObject:accessToken forKey:kSinglyAccessTokenKey];    
-    [_userDefaults synchronize];
+    [self setPassword:accessToken forKey:kSinglyAccessTokenKey];
 
 }
-
 -(NSString*)accessToken;
 {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kSinglyAccessTokenKey];
+    return [self getPasswordWithKey:kSinglyAccessTokenKey];
 }
 
 -(BOOL) isLoggedIn
 {
     return [[self accessToken] length] != 0;
+}
+
+- (void)logout
+{    
+    [self flushAccessTokens];
+}
+
+
+- (void)flushAccessTokens 
+{    
+#if TARGET_IPHONE_SIMULATOR    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:kSinglyAccountIdKey];
+    [defaults removeObjectForKey:kSinglyAccessTokenKey];
+    [defaults synchronize];
+
+    NSUserDefaults *_userDefaults = [NSUserDefaults standardUserDefaults];    
+    [_userDefaults setObject:accessToken forKey:key];    
+    [_userDefaults synchronize];
+#else
+    
+    [SSKeychain deletePasswordForService:SINGLY_KEYCHAIN_NAME account:kSinglyAccountIdKey];
+    [SSKeychain deletePasswordForService:SINGLY_KEYCHAIN_NAME account:kSinglyAccessTokenKey];
+    
+#endif
+    
+    
+}
+
+// Using NSUserDefaults for storage is very insecure, but because Keychain only exists on a device
+// we use NSUserDefaults when running on the simulator to store objects.  This allows you to still test
+// in the simulator.  You should NOT modify in a way that does not use keychain when actually deployed to a device.
+
+-(void) setPassword:(NSString *)password forKey:(NSString *)keyId
+{
+    
+#if TARGET_IPHONE_SIMULATOR    
+    NSUserDefaults *_userDefaults = [NSUserDefaults standardUserDefaults];    
+    [_userDefaults setObject:accessToken forKey:keyId];    
+    [_userDefaults synchronize];
+#else
+    
+    [SSKeychain setPassword:password forService:SINGLY_KEYCHAIN_NAME account:keyId];
+    
+#endif
+}
+
+-(NSString*)getPasswordWithKey:(NSString *) keyId;
+{
+#if TARGET_IPHONE_SIMULATOR
+    NSString *key = [NSString stringWithFormat:@"%@.%@", SINGLY_KEYCHAIN_NAME, keyId];
+    
+    return [[NSUserDefaults standardUserDefaults] objectForKey:key];
+#else
+	return [SSKeychain passwordForService:SINGLY_KEYCHAIN_NAME 
+								  account:keyId
+									error:nil ];
+#endif
+    
 }
 
 #pragma mark - Request methods
@@ -80,10 +139,10 @@ static NSString* kSinglyAccountIDKey = @"com.singly.accountID";
 
              id responseJson = [completedOperation responseJSON];
 
-             // Need to parse errors from Singly with httpStatus code 200?
-    //         NSError *error = [NSError errorWithDomain:@"com.singly.ErrorDomain" code:code userInfo:[NSDictionary dictionaryWithObjectsAndKeys:msg, NSLocalizedDescriptionKey, nil]];
-    //         
-    //         errorBlock(error);
+// Need to parse errors from Singly with httpStatus code 200?
+//         NSError *error = [NSError errorWithDomain:@"com.singly.ErrorDomain" code:code userInfo:[NSDictionary dictionaryWithObjectsAndKeys:msg, NSLocalizedDescriptionKey, nil]];
+//         
+//         errorBlock(error);
 
              completionBlock(responseJson);
              
@@ -102,25 +161,6 @@ static NSString* kSinglyAccountIDKey = @"com.singly.accountID";
     }
 
 }
-         
- - (NSString *) encodeStringWithParams:(NSDictionary *)params
-{
-     NSMutableString *string = [NSMutableString string];
-     for (NSString *key in params) {
-         
-         NSObject *value = [params valueForKey:key];
-         if([value isKindOfClass:[NSString class]])
-             [string appendFormat:@"%@=%@&", [key urlEncodedString], [((NSString*)value) urlEncodedString]];
-         else
-             [string appendFormat:@"%@=%@&", [key urlEncodedString], value];
-     }
-     
-     if([string length] > 0)
-         [string deleteCharactersInRange:NSMakeRange([string length] - 1, 1)];
-     
-     return string;  
- }
-         
 
 #pragma mark - Singleton
 
@@ -134,6 +174,17 @@ static NSString* kSinglyAccountIDKey = @"com.singly.accountID";
     });
     return sharedClient;
 }
+
++(void) requestTypesAPI:kSinglyApiName 
+                 withPath:(NSString*)commandPath
+            andParameters:(NSDictionary*)params
+       andCompletionBlock:(SEResponseBlock) completionBlock 
+                  onError:(SEErrorBlock) errorBlock;
+{
+    [[self sharedClient] requestAPI:SINGLY_TYPES_API_URL(kSinglyApiName, commandPath) withParameters:params andCompletionBlock:completionBlock onError:errorBlock];
+    
+}
+
 
 #pragma mark - Service Methods
 

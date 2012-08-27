@@ -13,6 +13,7 @@
 		419DBD1815E8B55300573194 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419DBD1715E8B55300573194 /* SystemConfiguration.framework */; };
 		419DBD7715E8DAFF00573194 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 419DBD7615E8DAEA00573194 /* libMKNetworkKit-iOS.a */; };
 		419DBDAD15E9614000573194 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419DBDAC15E9614000573194 /* UIKit.framework */; };
+		419DBDDF15E99D2200573194 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 419DBDDE15E99D2200573194 /* SSKeychain.m */; };
 		827E3E9215E3E9D000D30D96 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827E3E9115E3E9D000D30D96 /* Foundation.framework */; };
 		827E3E9915E3E9D000D30D96 /* SinglySDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 827E3E9815E3E9D000D30D96 /* SinglySDK.m */; };
 		827E3EA115E3E9D000D30D96 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827E3EA015E3E9D000D30D96 /* SenTestingKit.framework */; };
@@ -48,6 +49,8 @@
 		419DBD1715E8B55300573194 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		419DBD6E15E8DAEA00573194 /* MKNetworkKit-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "MKNetworkKit-iOS.xcodeproj"; path = "../MKNetworkKit-iOS.xcodeproj"; sourceTree = "<group>"; };
 		419DBDAC15E9614000573194 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		419DBDDD15E99D2200573194 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSKeychain.h; path = ../../sskeychain/SSKeychain.h; sourceTree = "<group>"; };
+		419DBDDE15E99D2200573194 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSKeychain.m; path = ../../sskeychain/SSKeychain.m; sourceTree = "<group>"; };
 		827E3E8E15E3E9D000D30D96 /* libSinglySDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSinglySDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		827E3E9115E3E9D000D30D96 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827E3E9515E3E9D000D30D96 /* SinglySDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SinglySDK-Prefix.pch"; sourceTree = "<group>"; };
@@ -107,6 +110,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		419DBDE015E99D3000573194 /* SSKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				419DBDDD15E99D2200573194 /* SSKeychain.h */,
+				419DBDDE15E99D2200573194 /* SSKeychain.m */,
+			);
+			name = SSKeychain;
+			sourceTree = "<group>";
+		};
 		827E3E8315E3E9D000D30D96 = {
 			isa = PBXGroup;
 			children = (
@@ -148,6 +160,7 @@
 				827E3EBD15E5367700D30D96 /* SinglyLogInViewController.m */,
 				419DBCE015E8400C00573194 /* SinglyClient.h */,
 				419DBCE115E8400C00573194 /* SinglyClient.m */,
+				419DBDE015E99D3000573194 /* SSKeychain */,
 				419DBD3D15E8D8C600573194 /* MKNetworkKit-iOS */,
 				827E3E9415E3E9D000D30D96 /* Supporting Files */,
 			);
@@ -297,6 +310,7 @@
 				827E3E9915E3E9D000D30D96 /* SinglySDK.m in Sources */,
 				827E3EBE15E5367700D30D96 /* SinglyLogInViewController.m in Sources */,
 				419DBCE215E8400C00573194 /* SinglyClient.m in Sources */,
+				419DBDDF15E99D2200573194 /* SSKeychain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,7 +397,10 @@
 				DSTROOT = /tmp/SinglySDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SinglySDK/SinglySDK-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${SRCROOT}/../MKNetworkKit/MKNetworkKit/**";
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/../MKNetworkKit/MKNetworkKit/**",
+					"${SRCROOT}/../sskeychain/**",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -401,7 +418,10 @@
 				DSTROOT = /tmp/SinglySDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SinglySDK/SinglySDK-Prefix.pch";
-				HEADER_SEARCH_PATHS = "${SRCROOT}/../MKNetworkKit/MKNetworkKit/**";
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/../MKNetworkKit/MKNetworkKit/**",
+					"${SRCROOT}/../sskeychain/**",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

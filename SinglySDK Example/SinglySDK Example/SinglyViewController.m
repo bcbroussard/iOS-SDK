@@ -30,17 +30,26 @@
 
     if([[SinglyClient sharedClient] isLoggedIn])
     {
-        DLog(@"We're already done!");
+        //We're already loggedin!
         
-        [SinglyClient requestInstagram:@"self"//requestFacebook:@"profiles" 
+        [SinglyClient requestInstagram:@"self"
                         withParameters:nil                                   
                     andCompletionBlock:^(id jsonResponse)
          {
-             DLog(@"Got a result:\n%@", jsonResponse);
+             if([jsonResponse isKindOfClass:[NSDictionary class]])
+             {
+                 NSLog(@"Got a dicationary result:\n%@", (NSDictionary *)jsonResponse);
+             }
+             else 
+             {
+                 //NSArray
+                 NSLog(@"Got array result:\n%@", (NSArray *)jsonResponse);
+             }
+
              
          }onError:^(NSError *error)
          {
-             DLog(@"Error: %@", error);
+             NSLog(@"Error: %@", error);
          }];
     }
 
@@ -61,7 +70,7 @@
     }
 }
 
-#pragma mark - SinglySessionDelegate
+#pragma mark - SinglyLoginDelegate
 
 -(void)singlyDidLogInForService:(NSString *)service;
 {

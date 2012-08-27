@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SinglySDK.h"
-#import "MKNetworkKit.h"
 
 @interface SinglyViewController : UIViewController<SinglyLoginDelegate>
 - (IBAction)loginCLick:(id)sender;

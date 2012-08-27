@@ -22,6 +22,9 @@ typedef void (^SEErrorBlock)(NSError *error);
 
 @property (nonatomic, readonly) BOOL isLoggedIn;
 
+
+- (void)logout;
+
 -(void) requestAPI:(NSString*)apiUrl
                    withParameters:(NSDictionary*)params
                andCompletionBlock:(SEResponseBlock) completionBlock 
@@ -29,6 +32,13 @@ typedef void (^SEErrorBlock)(NSError *error);
 
 + (SinglyClient *)sharedClient;
 
++(void) requestTypesAPI:kSinglyApiName 
+               withPath:(NSString*)commandPath
+          andParameters:(NSDictionary*)params
+     andCompletionBlock:(SEResponseBlock) completionBlock 
+                onError:(SEErrorBlock) errorBlock;
+
+#pragma mark - Service API Stubs
 +(void) requestServiceAPI:kSinglyApiName 
                  withPath:(NSString*)commandPath
             andParameters:(NSDictionary*)params
